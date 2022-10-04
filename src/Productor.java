@@ -2,21 +2,20 @@ import java.util.concurrent.TimeUnit;
 
 public class Productor implements Runnable {
     Monitor m;
-
-    public Productor(Monitor m) {
+    Recursos recursos;
+    static int elemento;
+    public Productor(Monitor m, Recursos recursos) {
+        elemento=1;
      this.m=m;
+     this.recursos=recursos;
     }
-
     @Override
     public void run() {
         while(true) {
-            m.insertar(5);
-            System.out.println("estoy producciendo "+ Thread.currentThread().getName());
-            try {
-                TimeUnit.SECONDS.sleep(2);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+            m.permiteinsertar();
+            recursos.insertar(elemento);
+            elemento++;
+           m.recursoinsertado();
         }
         }
 }

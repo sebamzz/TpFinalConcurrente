@@ -2,19 +2,19 @@ import java.util.concurrent.TimeUnit;
 
 public class Consumidor implements Runnable {
     Monitor m;
-    public Consumidor(Monitor m) {
+    Recursos recursos;
+    public Consumidor(Monitor m,Recursos recursos) {
         this.m=m;
+        this.recursos=recursos;
     }
 
     @Override
     public void run() {
         while (true) {
-            System.out.println("Estoy consumiendo :" + m.extraer() +" - "+ Thread.currentThread().getName());
-            try {
-                TimeUnit.SECONDS.sleep(2);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+          int extraido;
+            m.permiteextraer();
+            extraido= recursos.extraer();
+            m.recursoextraido();
         }
     }
 }
